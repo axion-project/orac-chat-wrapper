@@ -1,0 +1,13 @@
+body {
+  font-family: sans-serif;
+  padding: 1em;
+}
+.chat-box {
+  white-space: pre-line;
+  border: 1px solid gray;
+  height: 300px;
+  overflow-y: scroll;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 0.5em;
+}

@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ORAC Chat</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Chat with ORAC</h1>
+  <input id="apiKey" placeholder="Enter API Key" /><br>
+  <div id="chatBox" class="chat-box"></div>
+  <input id="userInput" placeholder="Your message" />
+  <button onclick="sendMessage()">Send</button>
 
+  <script>
+    let history = []
+
+    async function sendMessage() {
+      const prompt = document.getElementById("userInput").value
+      const apiKey = document.getElementById("apiKey").value
+      const chatBox = document.getElementById("chatBox")
+
+      history.push("User: " + prompt)
+
+      const res = await fetch("http://localhost:8001/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({prompt, api_key: apiKey, history})
+      })
+
+      const data = await res.json()
+      const reply = data.text || data.response || JSON.stringify(data)
+      history.push("ORAC: " + reply)
+
+      chatBox.textContent = history.join("\n\n")
+      document.getElementById("userInput").value = ""
+    }
+  </script>
+</body>
+</html>
